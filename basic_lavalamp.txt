@@ -7,6 +7,15 @@ float Ellipse(vec2 uv, vec2 p, float a, float b) {
     return shape / (distance(uv, p));
 }
 
+float Circle(vec2 uv, vec2 pos, vec2 p, float r) {
+    return r/ (distance(uv - pos, p) * 0.9);
+}
+
+float Ellipse(vec2 uv, vec2 p, float a, float b) {
+    float shape = pow(p.x - uv.x, 2.0) / pow(b, 2.0) + pow(p.y - uv.y, 2.0) / pow(a, 2.0);
+    return shape / (distance(uv, p));
+}
+
 float Rectangle(vec2 uv, vec2 p, float left, float right, float bottom, float top, float blur) {
     uv -= p;
     float a = smoothstep(left - blur, left + blur, uv.x) * smoothstep(right+blur, right-blur, uv.x); 
@@ -32,11 +41,8 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     // Create the bottom "blob" and the wax balls.
     float c = 0.0;
     if (recs == 0.0) {
-        if (uv.y <= 0.0) c = Ellipse(uv, vec2(0.0, 0.0), 0.6, 1.25);
+        if (uv.y <= 0.0) c = Ellipse(uv, vec2(0.0, 0.0), 0.75, 1.25);
         else c = Ellipse(uv, vec2(0.0, 0.0), 1.0, 1.25);
-        c += Circle(uv, vec2(0.0), vec2(-sin(iTime * 0.1) * 0.3,  cos(iTime * 0.4) * 0.2), 0.045);
-        c += Circle(uv, vec2(-0.1, -0.2), vec2(sin(iTime * 0.2) * 0.2, cos(iTime * 0.3) * 0.4), 0.05);
-        c += Circle(uv, vec2(-0.2, -0.2), vec2(sin(iTime * 0.25) * 0.55, -cos(iTime * 0.35) * 0.7), 0.06);
         c += Circle(uv, vec2(0.1, -0.3), vec2(-sin(iTime * 0.2) * 0.6, -cos(iTime * 0.3) * 0.4), 0.04);
         c += Circle(uv, vec2(0.2, -0.1), vec2(sin(iTime * 0.3) * 0.3, cos(iTime * 0.4) * 0.3), 0.045);
         c += Circle(uv, vec2(-0.15, -0.15), vec2(-sin(iTime * 0.3) * 0.2, cos(iTime * 0.25) * 0.6), 0.045);
@@ -44,6 +50,9 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
         c += Circle(uv, vec2(0.05, -0.35), vec2(sin(iTime * 0.2) * 0.3, cos(iTime * 0.2) * 0.5), 0.03);
         c += Circle(uv, vec2(-0.2, -0.2), vec2(-sin(iTime * 0.24) * 0.65, cos(iTime * 0.3) * 0.7), 0.045);
         c += Circle(uv, vec2(0.15, -0.3), vec2(sin(iTime * 0.3) * 0.5, cos(iTime * 0.1) * 0.6), 0.035);
+        c += Circle(uv, vec2(-0.15, -0.3), vec2(cos(iTime * 0.3) * 0.5, sin(iTime * 0.1) * 0.1), 0.035);
+        c += Circle(uv, vec2(0.05, -0.1), vec2(cos(iTime * 0.1) * 0.5, sin(iTime * 0.4) * 0.4), 0.055);
+        c += Circle(uv, vec2(0.2, -0.4), vec2(cos(iTime * 0.5) * 0.4, sin(iTime * 0.4) * 0.3), 0.045);
     }
     
 
