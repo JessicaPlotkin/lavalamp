@@ -105,7 +105,7 @@
         </dd>   
         <br>
         <dd align="justify">
-            There are several effects we created to simulate the influence of temperature on the lava lamp, including the temperature gradient of the background liquid, the volume of the blobs, and their movement. To demonstrate the temperature change across different depths in the lava lamp, we created a color gradient such that the warmer and the lighter the color is, the higher the indicated temperature will be at that depth. We researched how temperature and hydrostatic pressure affect the density and size of the wax blobs and used some insights from the thermocline of a larger body fluid such as the ocean. With trial and error, we found it most effective to scale the volumes and movements of the blobs using the following functions to approximate the temperature change. 
+            There are several effects we created to simulate the influence of temperature on the lava lamp, including the temperature gradient of the background liquid, the volume of the blobs, and their movement. To demonstrate the temperature change across different depths in the lava lamp, we created a color gradient such that the warmer and the lighter the color is, the higher the indicated temperature will be at that depth. We researched how temperature and hydrostatic pressure affect the density and size of the wax blobs and used some insights from the thermocline of a larger body fluid such as the ocean. Based on Gyure and Janosi's paper, with trial and error, we found it most effective to scale the volumes and movements of the blobs using the following functions to approximate the temperature change. 
         </dd>
 
         <br>
@@ -132,16 +132,20 @@
         <h3 align="middle">Problems & Lessons</h3>
         <dd align="justify">
             We encountered several challenges throughout this project. Initially, we wanted to use Navier Stokes equations for our simulation. After extensive research into this method and its visual effects, however, we felt it would not improve our simulation by much, especially combined with Shadertoy. We thus pivoted to implementing separate features that would make our simulation more physically realistic, including more realistic blobs shape, size, movements, coloring, and shading. 
+        </dd>
+        <br>
+        <dd align="justify">
+            When interpolating the funcitons best suited to represent the movements of the wax blobs, we originally tried Newton's polynomital interpolation and Hermite interpolation using points and derivitives of the functions, the graphs of which were provided in the paper. The polynomials we obtained from interpolation, however, did not give us desirable outcomes because of their high degrees and the difficulty to scale them for the frame used in Shadertoy. 
+            We then pivoted to using logarithm functions adjusted by constants here and there and found it sufficiently effective to mimic the behaviors of wax blobs in a real lava lamp.
+        </dd>
+        <br>
+        <dd align="justify">
+            Shadertoy was unexpectedly difficult and time-consuming to understand and work with, especially in the beginning. We started everything from scratch and there was little documentation and helpful resources available online. We spent a significant amount of time learning and experimenting to obtain the desired effects. The platform was also down for a period of time and our progress was delayed. 
 
         </dd>
         <br>
         <dd align="justify">
-            Shadertoy was unexpectedly difficult and time-consuming to understand and work with, especially in the beginning. There was little documentation and helpful resources available online. We spent a significant amount of time learning and experimenting to obtain the desired effects. The platform was also down for a period of time and our progress was delayed. 
-
-        </dd>
-        <br>
-        <dd align="justify">
-            We wanted to implement collisions of the wax blobs at the top of the container as observed in a real lava lamp. We tried adding in stationary objects to interact with the moving blobs as well as implementing collisions effects separately. After spending extensive time, however, we could not find a way to incorporate the effects into our implementation of metaballs.
+            We wanted to implement collisions of the wax blobs at the top of the container as observed in a real lava lamp. We tried adding in stationary objects to interact with the moving blobs as well as implementing collision effects separately. Because of time constraints, however, we did not manage to find a way to incorporate the effects into our implementation of metaballs.
         </dd>
 
 
@@ -157,6 +161,10 @@
             <dd>- <a href="https://graphics.stanford.edu/courses/cs348c-95-fall/projects/redkey_herman/writeup.html">A Particle System Representation of Candle Wax.</a></dd>
             <dd>- <a href="https://github.com/mharrys/fluids-2d?fbclid=IwAR2BkokLk1JW4ri9l-5nY8v8svZfWcqH7iyEfOZ5JpqtBVCplKhAv2ggsow">Fluids-2D</a></dd>
             <dd>- <a href="https://en.wikipedia.org/wiki/Navier–Stokes_equations">Navier–Stokes equations</a></dd>
+            <dd>- <a href="http://karman3.elte.hu/janosi/pdf_pub/PRE09lava-lamp.pdf">Basics of a Lava Lamp convection</a></dd>
+            <dd>- <a href="https://oceanservice.noaa.gov/facts/thermocline.html">What is a Thermocline?</a></dd>
+            <dd>- <a href="http://wiki.geodynamics.umaine.edu/index.php/Heat_transfer">Heat Transfer in a Lava Lamp</a></dd>
+
         </br>
             <dt>Computing platform:</dt>
             <dd>- Personal Laptops</dd>
