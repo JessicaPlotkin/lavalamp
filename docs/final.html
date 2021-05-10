@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<style>
+  body {
+    max-width: 1000px;
+    padding: 100px;
+    padding-top: 10px;
+    margin: auto;
+    text-align: left;
+    font-weight: 300;
+    font-family: 'Open Sans', sans-serif;
+    color: #121212;
+  }
+  h1, h2, h3, h3 {
+    font-family: 'Source Sans Pro', sans-serif;
+  }
+  .site-header {
+    overflow: auto;
+    height: 20vh;
+    background-image: url(images/bgimage.jpg);
+    background-size: cover;
+  }
+  .name-header {
+    float: left;
+    height: fit-content;
+  }
+  .name-header p {
+    margin-top: 8%;
+    margin-left: 5%;
+    width: 30vw;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 35px;
+    color: rgb(255, 255, 255);
+    
+    text-shadow: 0 0 4px cornflowerblue;
+  }
+  .title-bar {
+    float: right;
+    padding: 5px;
+  }
+  .title-bar a {
+    display:block;
+    float: left;
+    text-align: center;
+    text-decoration: none;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: normal;
+    color: rgb(219, 219, 219);
+    padding: 16px;
+    padding-top: 50px;
+  }
+</style>
+<title>Lavalamp | CS 184</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link href="https://fonts.googleapis.com/css?family=Open+Sans|Source+Sans+Pro" rel="stylesheet">
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+
+
+<body>
+    <div class="site-header">
+        <div class="name-header">
+            <p>Lavalamp Simulation</p>
+        </div>
+        <div class="title-bar"> 
+            <a href="proposal.html">Proposal</a>
+            <a href="index.html">Milestone</a>
+            <a href="final.html">Final</a>
+        </div>
+    </div>
+
+<!-- <h1 align="middle">CS 184: Computer Graphics and Imaging, Spring 2021</h1> -->
+<div>
+    <h1 align="middle">Final Report</h1>
+    <h3 align="middle">Alyssa Lau, Jessica Plotkin, Jonathan Liu, and Zoe Zhang</h3>
+</div>
+
+<br><br>
+
+    <div>
+
+        <h2 align="middle">Abstract</h2>
+        <dd align="justify">
+            In this project, we implemented a 2D lava lamp simulator using Shadertoy. We simulated the wax blobs and the wax pool based on a system of circular metaballs that allowed for clean looking merging and division. We implemented the blob movements based on sine and cosine functions and adjusted the velocity and size of each blob to demonstrate different buoyancies at respective temperatures across different depths for improvement towards more realistic simulation. We also implemented various color and lighting effects and diffuse shading using imaginary normals and light sources.        </p>
+        </dd>
+    </br>
+        <h2 align="middle">Technical Approach</h2>
+
+        <h3 align="middle">Wax blobs and movements</h3>
+
+        <dd align="justify">
+        </dd>
+
+        <h3 align="middle">Temperature effects</h3>
+
+        <dd align="justify">  
+            To make the simulation more realistic, we researched into the temperature changes across different depths of the lava lamp. Considering the three different types of heat transfer within the lava lamp, namely convection, advection, and conduction, temperature determines the velocity and volume of the blobs, And it should be dependent on the distance from the wax pool. 
+        </dd>   
+        <br>
+        <dd align="justify">
+            There are several effects we created to simulate the influence of temperature on the lava lamp, including the temperature gradient of the background liquid, the volume of the blobs, and their movement. To demonstrate the temperature change across different depths in the lava lamp, we created a color gradient such that the warmer and the lighter the color is, the higher the indicated temperature will be at that depth. We researched how temperature and hydrostatic pressure affect the density and size of the wax blobs and used some insights from the thermocline of a larger body fluid such as the ocean. With trial and error, we found it most effective to scale the volumes and movements of the blobs using the following functions to approximate the temperature change. 
+        </dd>
+
+        <br>
+        <dd align="justify"> 
+            We have
+        </dd>
+        <br>
+        <dd>\[ radius Scale Factor = {({1 \over log(height + c) -k} )^ {1/3} * l} \] </dd>
+            
+            <dd>
+            to simulate the impact of temperature, pressure and thus density. 
+            <em>c, k, l</em> are constants that can be adjusted based on the effects desired for Shadertoy. <em>height</em> is inversely proportional to depth and is calculated by the y component of each pixel coordinate divided by the y component of the resolution of the screen.
+        </dd>
+<br>
+        <dd align="justify">We further adjusted the positions of the blobs at each time step by their respective depths to improve on the sine and cosine base functions we used on movements for more realistic simulation. And we have
+        </dd>
+
+        <dd>\[ p1 = {p0 + ({l \over log(height + c) -k} )^ 2} \] </dd>
+        <dd align="justify">
+            to simulate the impact of volume, pressure, buoyant force and thus velocity, where c, k, l are adjustable constants and p0 is the base position at each time step after applying the sine and cosine function of time.
+        </dd>
+
+        <h3 align="middle">Shading</h3>
+        <h3 align="middle">Problems & Lessons</h3>
+        <dd align="justify">
+            We encountered several challenges throughout this project. Initially, we wanted to use Navier Stokes equations for our simulation. After extensive research into this method and its visual effects, however, we felt it would not improve our simulation by much, especially combined with Shadertoy. We thus pivoted to implementing separate features that would make our simulation more physically realistic, including more realistic blobs shape, size, movements, coloring, and shading. 
+
+        </dd>
+        <br>
+        <dd align="justify">
+            Shadertoy was unexpectedly difficult and time-consuming to understand and work with, especially in the beginning. There was little documentation and helpful resources available online. We spent a significant amount of time learning and experimenting to obtain the desired effects. The platform was also down for a period of time and our progress was delayed. 
+
+        </dd>
+        <br>
+        <dd align="justify">
+            We wanted to implement collisions of the wax blobs at the top of the container as observed in a real lava lamp. We tried adding in stationary objects to interact with the moving blobs as well as implementing collisions effects separately. After spending extensive time, however, we could not find a way to incorporate the effects into our implementation of metaballs.
+        </dd>
+
+
+        <h2 align="middle">Results</h2>
+
+    </br>
+        
+        <h2 align="middle">References</h2>
+        <dl>
+            <dt>References:</dt>
+            <dd>- <a href="http://www.subdude-site.com/WebPages_Local/RefInfo/Computer/Linux/LinuxGuidesOfOthers/linuxProgrammingGuides/pdfs/3Dogl/3D_3DLavaLampSimulation_report_ca2002_35pgs.pdf">A 3D Lava Lamp Simulation</a></dd>
+            <dd>- <a href="https://www.researchgate.net/publication/220789344_Particle-Based_Fluid-Fluid_Interaction">Particle-Based Fluid-Fluid Interaction</a></dd>
+            <dd>- <a href="https://graphics.stanford.edu/courses/cs348c-95-fall/projects/redkey_herman/writeup.html">A Particle System Representation of Candle Wax.</a></dd>
+            <dd>- <a href="https://github.com/mharrys/fluids-2d?fbclid=IwAR2BkokLk1JW4ri9l-5nY8v8svZfWcqH7iyEfOZ5JpqtBVCplKhAv2ggsow">Fluids-2D</a></dd>
+            <dd>- <a href="https://en.wikipedia.org/wiki/Navier–Stokes_equations">Navier–Stokes equations</a></dd>
+        </br>
+            <dt>Computing platform:</dt>
+            <dd>- Personal Laptops</dd>
+        </br>
+            <dt>Software Resources</dt>
+            <dd>- ShaderToy</dd>
+        </dl>
+
+        <h2 align="middle">Contributions</h2>
+
+    </div></body>
+</html>
