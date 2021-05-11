@@ -88,8 +88,7 @@
 
         <h2 align="middle">Abstract</h2>
         <dd align="justify">
-            In this project, we implemented a 2D lava lamp simulator using Shadertoy. We simulated the wax blobs and the wax pool based on a system of circular metaballs that allowed for clean looking merging and division. We implemented the blob movements based on sine and cosine functions and adjusted the velocity and size of each blob to demonstrate different buoyancies at respective temperatures across different depths for improvement towards more realistic simulation. We also implemented various color and lighting effects and diffuse shading using imaginary normals and light sources.        </p>
-        </dd>
+            In this project, we built a 2D lava lamp simulator on ShaderToy from scratch. Our program attempts to simulate the movement patterns of the wax blobs and the various interactions between them. The wax objects in our simulation are represented using a system of metaballs, which allows for the smooth merging and divisions. To make our simulation more physically realistic, we utilize a temperature gradient to modify the size and speed of the wax blobs at different depths of the lava lamp. To make our simulation visually appealing and interesting, we created a variety of wax and background color combinations and wax effects. We also created a shaded version of the lava lamp using imaginary normals and a fake light source.        </dd>
     </br>
         <h2 align="middle">Technical Approach</h2>
 
@@ -116,51 +115,47 @@
         <h3 align="middle">Temperature effects</h3>
 
         <dd align="justify">  
-            To make the simulation more realistic, we researched into the temperature changes across different depths of the lava lamp. Considering the three different types of heat transfer within the lava lamp, namely convection, advection, and conduction, temperature determines the velocity and volume of the blobs, And it should be dependent on the distance from the wax pool. 
-        </dd>   
+            To make the simulation more realistic, we researched the temperature changes across different depths of a lava lamp. Considering the three different types of heat transfer within the lava lamp (convection, advection, and conduction), temperature and pressure determine the velocity and volume of a blob and is dependent on a blob’s distance from the wax pool.        </dd>   
         <br>
         <dd align="justify">
-            There are several effects we created to simulate the influence of temperature on the lava lamp, including the temperature gradient of the background liquid, the volume of the blobs, and their movement. To demonstrate the temperature change across different depths in the lava lamp, we created a color gradient such that the warmer and the lighter the color is, the higher the indicated temperature will be at that depth. We researched how temperature and hydrostatic pressure affect the density and size of the wax blobs and used some insights from the thermocline of a larger body fluid such as the ocean. Based on Gyure and Janosi's paper, with trial and error, we found it most effective to scale the volumes and movements of the blobs using the following functions to represent the temperature and depth change. 
-        </dd>
+            There are several effects we created to simulate the influence of temperature on the lava lamp, including the temperature gradient of the background liquid, the volume of the blobs, and their movement. To demonstrate the temperature change across different depths in the lava lamp, we created a background color gradient that becomes warmer and lighter as the temperature increases. We researched how temperature and hydrostatic pressure affect the density and size of the wax blobs and utilized some insights from the thermocline of a larger body fluid, such as the ocean. Based on Gyure and Janosi's <a href="http://karman3.elte.hu/janosi/pdf_pub/PRE09lava-lamp.pdf">paper</a>, with trial and error, we found it most effective to scale the volumes and movements of the blobs using the following functions to represent the temperature and pressure change.        </dd>
 
         <br>
         <dd align="justify"> 
-            We have
+            We used
         </dd>
         <br>
         <dd>\[ radius Scale Factor = {({1 \over log(height + c) -k} )^ {1/3} * l} \] </dd>
             
             <dd align="justify">
-            to simulate the impact of temperature and pressure, both of which are proportional to depth, and thus density, which determines the volume. And volume is proportional to the cubic of radius.
-            <em>c, k, l</em> are constants that can be adjusted based on the effects desired for Shadertoy. <em>height</em> is inversely proportional to depth and is calculated by the y component of each fragment coordinate divided by the y component of the resolution of the screen.
+                to simulate the impact of temperature and pressure, both of which are proportional to depth (and thus density). This determines the volume, which is proportional to the cubic of the radius.
+                <em>c, k, l</em> are constants that can be adjusted based on the effects desired for our simulation. <em>height</em> is inversely proportional to depth and is calculated by the y component of each fragment coordinate divided by the y component of the resolution of the screen.
+
         </dd>
 <br>
-        <dd align="justify">We further adjusted the positions of the blobs at each time step by their respective depths to improve on the sine and cosine base functions we used on movements for more realistic simulation. And we have
-        </dd>
+        <dd align="justify">
+            We further adjusted the positions of the blobs at each time step by their respective depths to improve on the sine and cosine base functions we used on movements for more realistic simulation. We used        </dd>
 <br>
         <dd>\[ p1 = {p0 + ({l \over log(height + c) -k} )^ 2} \] </dd>
         <dd align="justify">
-            to simulate the impact of volume, pressure, buoyant force that is proportional to volume and thus velocity and density. We take initial speed as close to zero when the blobs are yet to divide from the wax pool. Velocity is thus proportional to acceleration. Again, <em>c, k, l</em> are adjustable parameters and <em>p0</em> is the base position at each time step after applying the sine and cosine function of time.
+            to simulate the impact of volume, pressure, and buoyant force that is proportional to volume (and thus velocity and density). While the blobs are within the wax pool, we set their initial speeds to be close to 0. Taking <em>v = u + at</em> , the final velocity is thus proportional to acceleration at any given time step. Again, <em>c, k, l</em> are adjustable parameters and <em>p0</em> is the base position at each time step after applying the sine and cosine function.
         </dd>
 
         <h3 align="middle">Shading</h3>
         <h3 align="middle">Problems & Lessons</h3>
         <dd align="justify">
-            We encountered several challenges throughout this project. Initially, we wanted to use Navier Stokes equations for our simulation. After extensive research into this method and its visual effects, however, we felt it would not improve our simulation by much, especially combined with Shadertoy. We thus pivoted to implementing separate features that would make our simulation more physically realistic, including more realistic blobs shape, size, movements, coloring, and shading. 
+            We encountered several challenges throughout this project. Initially, we wanted to use Navier Stokes equations for our simulation. After extensive research into this method and its visual effects, we felt it would not improve our simulation’s movements. Due to this, we pivoted to implementing separate features that would make our simulation more physically realistic, such as more realistic blobs shape, better movements, coloring, and shading.
         </dd>
         <br>
         <dd align="justify">
-            When interpolating the functions best suited to represent the movements of the wax blobs, we originally tried Newton's polynomial interpolation and Hermite interpolation using points and derivatives of the functions, the graphs of which were provided in the paper. The polynomials we obtained from interpolation, however, did not give us desirable outcomes because of their high degrees and the difficulty to scale them for the frame used in Shadertoy. 
-            We then pivoted to using logarithm functions tailored to represent the relationship between the factors such as temperature, pressure, and depth, and found it sufficiently effective to mimic the behaviors of wax blobs in a real lava lamp.
+            When experimenting with the wax blobs’ movement, we originally tried Newton's polynomial interpolation and Hermite interpolation using points and derivatives of the functions, the graphs of which were provided in the paper. However, the polynomials we obtained from interpolation did not give us desirable outcomes. This was due to their high degrees and the difficulty to scale them for the frame used in Shadertoy. We then tried using logarithm functions adjusted by constants and found it sufficiently effective to mimic the behaviors of wax blobs in a real lava lamp.
         </dd>
         <br>
         <dd align="justify">
-            Shadertoy was unexpectedly difficult and time-consuming to understand and work with, especially in the beginning. We started everything from scratch and there was little documentation and helpful resources available online. We spent a significant amount of time learning and experimenting to obtain the desired effects. The platform was also down for a period of time and our progress was delayed. 
-
+            Shadertoy was unexpectedly difficult and time-consuming to learn and work with, especially in the beginning. We started our program from scratch and found that there was little documentation and useful resources available online. Due to this, we spent a significant amount of time learning and experimenting with Shadertoy. Also, Shadertoy would occasionally go down for long periods of time (up to an entire day), which hindered our progress.
         </dd>
         <br>
         <dd align="justify">
-            We wanted to implement collisions of the wax blobs at the top of the container as observed in a real lava lamp. We tried adding in stationary objects to interact with the moving blobs as well as implementing collision effects separately. Because of time constraints, however, we did not manage to find a way to incorporate the effects into our implementation of metaballs.
         </dd>
 
 
