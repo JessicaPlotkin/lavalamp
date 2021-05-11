@@ -187,11 +187,11 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     
     vec4 color;
     // CHANGE COLOR HERE!
-    // Choose a value from 0 to 11. Remember to convert it to a float!
+    // Choose a value from 1 to 11. Remember to convert it to a float!
     // Any floats/invalid values will default to rainbow.
-    float colorCombo = 0.0;
+    float colorCombo = 1.0;
     
-    if (colorCombo == 0.0) {
+    if (colorCombo == 1.0) {
         // Temp Gradient
         color = vec4(temp_at_depth, 0.0, 1.15 - temp_at_depth, 1.0);
         if (c >= 0.0 && c <= 1.0) color -= vec4(0.1, 0.4 * (1.0 / (1.0 - c)), 0.3, 1.0);
