@@ -95,7 +95,19 @@
 
         <h3 align="middle">Wax blobs</h3>
 
+
+        <dd>
+            \[ M = {r \over 0.8 * \sqrt{x^2 + y^2}} \]
+        </dd>
+
+        <dd>
+            \[ E = {0.5 \over {{x^2 \over b^2} + {y^2 \over a^2}}} \]
+        </dd>
+
         <h3 align="middle">Movements</h3>
+
+        <dd align="justify">
+        </dd>
 
         <dd align="justify">
             In Shadertoy, we set the color at each fragment at each time step for all the coordinates in the frame. As mentioned above, the basic movements of the wax blobs are based on sine and cosine functions of time.
@@ -108,7 +120,7 @@
         </dd>   
         <br>
         <dd align="justify">
-            There are several effects we created to simulate the influence of temperature on the lava lamp, including the temperature gradient of the background liquid, the volume of the blobs, and their movement. To demonstrate the temperature change across different depths in the lava lamp, we created a color gradient such that the warmer and the lighter the color is, the higher the indicated temperature will be at that depth. We researched how temperature and hydrostatic pressure affect the density and size of the wax blobs and used some insights from the thermocline of a larger body fluid such as the ocean. Based on Gyure and Janosi's paper, with trial and error, we found it most effective to scale the volumes and movements of the blobs using the following functions to approximate the temperature change. 
+            There are several effects we created to simulate the influence of temperature on the lava lamp, including the temperature gradient of the background liquid, the volume of the blobs, and their movement. To demonstrate the temperature change across different depths in the lava lamp, we created a color gradient such that the warmer and the lighter the color is, the higher the indicated temperature will be at that depth. We researched how temperature and hydrostatic pressure affect the density and size of the wax blobs and used some insights from the thermocline of a larger body fluid such as the ocean. Based on Gyure and Janosi's paper, with trial and error, we found it most effective to scale the volumes and movements of the blobs using the following functions to represent the temperature and depth change. 
         </dd>
 
         <br>
@@ -128,7 +140,7 @@
 
         <dd>\[ p1 = {p0 + ({l \over log(height + c) -k} )^ 2} \] </dd>
         <dd align="justify">
-            to simulate the impact of volume, pressure, buoyant force that is proportional to volume and thus velocity and density. We take initial speed as close to zero when the blobs are yet to divide from the wax pool. Velocity is thus proportional to acceleration. Again, <em>c, k, l</em> are adjustable constants and <em>p0</em> is the base position at each time step after applying the sine and cosine function of time.
+            to simulate the impact of volume, pressure, buoyant force that is proportional to volume and thus velocity and density. We take initial speed as close to zero when the blobs are yet to divide from the wax pool. Velocity is thus proportional to acceleration. Again, <em>c, k, l</em> are adjustable parameters and <em>p0</em> is the base position at each time step after applying the sine and cosine function of time.
         </dd>
 
         <h3 align="middle">Shading</h3>
