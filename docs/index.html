@@ -17,16 +17,24 @@
   }
   .site-header {
     overflow: auto;
+    height: 20vh;
+    background-image: url(images/bgimage.jpg);
+    background-size: cover;
   }
   .name-header {
     float: left;
-    height: fit-content
+    height: fit-content;
   }
   .name-header p {
+    margin-top: 8%;
+    margin-left: 5%;
+    width: 30vw;
     font-style: normal;
     font-weight: bold;
     font-size: 35px;
-    color: rgb(95, 95, 95);
+    color: rgb(255, 255, 255);
+    
+    text-shadow: 0 0 4px cornflowerblue;
   }
   .title-bar {
     float: right;
@@ -41,7 +49,7 @@
     font-weight: 600;
     font-size: 18px;
     line-height: normal;
-    color: rgb(126, 126, 126);
+    color: rgb(219, 219, 219);
     padding: 16px;
     padding-top: 50px;
   }
@@ -49,6 +57,10 @@
 <title>Lavalamp | CS 184</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link href="https://fonts.googleapis.com/css?family=Open+Sans|Source+Sans+Pro" rel="stylesheet">
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 </head>
 
 
@@ -57,50 +69,294 @@
         <div class="name-header">
             <p>Lavalamp Simulation</p>
         </div>
-            <div class="title-bar"> 
+        <div class="title-bar"> 
             <a href="proposal.html">Proposal</a>
-            <a href="index.html">Milestone</a>
-            <a href="final.html">Final</a>
+            <a href="milestone.html">Milestone</a>
+            <a href="index.html">Final</a>
         </div>
     </div>
 
 <!-- <h1 align="middle">CS 184: Computer Graphics and Imaging, Spring 2021</h1> -->
-<h1 align="middle">Milestone</h1>
-<h3 align="middle">Alyssa Lau, Jessica Plotkin, Jonathan Liu, and Zoe Zhang</h3>
+<div>
+    <h1 align="middle">Final Report</h1>
+    <h3 align="middle">Alyssa Lau, Jessica Plotkin, Jonathan Liu, and Zoe Zhang</h3>
+</div>
 
 <br><br>
 
     <div>
 
-        <h2 align="">Project Goal</h2>
+        <h2 align="">Abstract</h2>
+
         <p>
-            Our main project goal remains the same: to implement a shader in Shadertoy to simulate the movement and interactions between the wax blobs in a lava lamp.
+            In this project, we built a 2D lava lamp simulator on ShaderToy from scratch. Our program attempts to simulate the movement patterns of the wax blobs and the various interactions between them. The wax objects in our simulation are represented using a system of metaballs, which allows for the smooth merging and divisions. To make our simulation more physically realistic, we utilize a temperature gradient to modify the size and speed of the wax blobs at different depths of the lava lamp. To make our simulation visually appealing and interesting, we created a variety of wax and background color combinations and wax effects. We also created a shaded version of the lava lamp using imaginary normals and a fake light source.
         </p>
 
-    </br>
-        <h2 align="">Accomplishments</h2>
+        <h2 align="">Implementation</h2>
+
+        <h3 align="">Wax blobs</h3>
         <p>
-            So far we’ve made good progress on our week to week goals. We’ve learned how to use Shadertoy by going through a few tutorials and experimenting with various programs we found online. Using what we learned from the tutorials and other online resources, we made a basic wax simulator that employs a system of metaballs to represent the wax blobs. We also made a simple container for the lava lamp, complete with a wax pool that interacts with the wax blobs. Our program is able to simulate the sinking, floating, and merging of the blobs. In order to mimic the velocity changes of the blobs due to temperature, our program makes the movement speed of the blobs proportional to their distance from the bottom of the lava lamp.
+            To represent the wax blobs in our lava lamp, we utilized a system of circular metaballs. We experimented with a variety of different equations to define our metaballs and eventually found that we got the best looking metaballs by modifying the equation from this 
+            <a href="https://greentec.github.io/shadertoy-metaball-en/?fbclid=IwAR2O-2iOJFU2bQGV-A8jjGsLZJf00l1l1H4KuzBDAUfISnyRQUMUnuXk7b4">site</a> (metaball analysis):
+        </p>
+<br>
+        <dd>
+            \[ M = {r \over 0.8 * \sqrt{x^2 + y^2}} \]
+        </dd>
+<br>
+       
+        <p>
+            We had to be strategic with our metaball placement, as putting them at the wrong starting locations could cause the balls to constantly “clump” together, leading to some unsatisfying visuals. We also had to fine tune the size of the balls, since they would constantly merge if they were too big or rarely interact if they were too small. 
+        </p>
+        
+        <div align="middle">
+            <table style="width=100%">
+                <tr>
+                    <img src="images/image5.png" align="middle" width="400px"/>
+                    <figcaption align="middle">Three Balls, Radius=0.1</figcaption>
+                </tr>
+                <tr>
+                    <img src="images/image16.png" align="middle" width="400px"/>
+                    <figcaption align="middle">Three Balls, Radius=0.08F</figcaption>
+                </tr>
+                <tr>
+                    <img src="images/image12.png" align="middle" width="400px"/>
+                    <figcaption align="middle">Three Balls, Radius=0.05</figcaption>
+                </tr>
+            </table>
+        </div>
+
+        <p>
+            By carefully placing circles of different sizes at various locations within the lava lamp, we were able to create a simple system with smooth merging and satisfying visuals.
         </p>
 
+        <div align="middle">
+            <table style="width=100%">
+                <tr>
+                    <img src="images/image27.png" align="middle" width="400px"/>
+                    <figcaption align="middle">Simple Circular Metaballs</figcaption>
+                </tr>
+            </table>
+        </div>
+        
+        <p>
+            However, most of the wax blobs in a real lava lamp aren’t perfect circles. To make our wax blobs more realistic looking, we placed multiple metaballs of varying sizes in close proximity to each other, which made them constantly merge together into more interesting shapes. The distance between the “submetaballs” needed to be fine tuned, since spacing them out could cause irregular shapes to form.
+        </p>
+
+        <div align="middle">
+            <table style="width=100%">
+                <tr>
+                    <img src="images/image26.png" align="middle" height="200px"/>
+                    <img src="images/image9.png" align="middle" height="200px"/>
+                    <figcaption align="middle">Wax Blobs with Metaballs Exposed</figcaption>
+                </tr>
+            </table>
+        </div>
+
+        <p>
+            To add more interactions between the wax in our lava lamp, we added a wax pool at the bottom of the lava lamp. We experimented with different ways of representing the wax pool, but we got the best results from a half-hidden elliptical metaball defined by the equation: 
+        </p>
+
+        <dd>
+            \[ E = {0.5 \over {{x^2 \over b^2} + {y^2 \over a^2}}} \]
+        </dd>
+
+        <div align="middle">
+            <table style="width=100%">
+                <tr>
+                    <img src="images/image8.png" align="middle" width="200px"/>
+                    <figcaption align="middle">Blob Emerging From Wax Pool</figcaption>
+                </tr>
+            </table>
+        </div>
+
+        <h3 align="">Movements</h3>
+
+        <p>
+            After trying out various methods and functions for the movement of the wax blobs, we determined that sine and cosine functions closely replicated the flow of a real lava lamp. We found that the blob movement looked most realistic when each blobs' x position was controlled by cosine as a function of time scaled by a multiplier and a limited range and each blobs’ y position was controlled in the same manner but with sine instead of cosine. We spent a lot of time experimenting with different multipliers and ranges to make the flow look as realistic as possible.
+
+            <br/>In order to generate more realistic acceleration and deceleration of the blobs, we took into account differences in their velocity based on temperature and blob depth. The wax blobs should move faster as they travel closer to the bottom of the lava lamp,  where the temperature is higher, and slower as they travel progressively towards the top, where the temperature is lower. We implemented this by calculating the distance between each blob and the bottom of the container and used this distance to scale our sine and cosine functions appropriately. This gave us more accurate movement.
+
+            <br/>Additionally, we decided to make our simulation move faster than an actual lava lamp would in real time since we found the faster pace to be more visually compelling. However, for the sake of realism we also implemented a slow mode which more closely replicates the true speed of a lava lamp.  
+        </p>
+       
+        <h3 align="">Temperature effects</h3>
+
+        <p>
+            To make the simulation more realistic, we researched the temperature changes across different depths of a lava lamp. Considering the three different types of heat transfer within the lava lamp (convection, advection, and conduction), temperature and pressure determine the velocity and volume of a blob and is dependent on a blob’s distance from the wax pool.
+
+            <br/>There are several effects we created to simulate the influence of temperature on the lava lamp, including the temperature gradient of the background liquid, the volume of the blobs, and their movement. To demonstrate the temperature change across different depths in the lava lamp, we created a background color gradient that becomes warmer and lighter as the temperature increases. We researched how temperature and hydrostatic pressure affect the density and size of the wax blobs and utilized some insights from the thermocline of a larger body fluid, such as the ocean. Based on Gyure and Janosi's <a href="http://karman3.elte.hu/janosi/pdf_pub/PRE09lava-lamp.pdf">paper</a>, with trial and error, we found it most effective to scale the volumes and movements of the blobs using the following functions to represent the temperature and pressure change.
+            
+            <br/>We useed
+        </p>
+
+        <br>
+        <dd>\[ radius Scale Factor = {({1 \over log(height + c) -k} )^ {1/3} * l} \] </dd>
+            
+        <p>
+            to simulate the impact of temperature and pressure, both of which are proportional to depth (and thus density). This determines the volume, which is proportional to the cubic of the radius. c, k, l are constants that can be adjusted based on the effects desired for our simulation. Height is inversely proportional to depth and is calculated by the y component of each fragment coordinate divided by the y component of the resolution of the screen.
+
+            <br/>We further adjusted the positions of the blobs at each time step by their respective depths to improve on the sine and cosine base functions we used on movements for more realistic simulation. We used            
+        </p>
+
+        <dd>\[ p1 = {p0 + ({l \over log(height + c) -k} )^ 2} \] </dd>
+
+        <p>
+            to simulate the impact of volume, pressure, and buoyant force that is proportional to volume (and thus velocity and density). While the blobs are within the wax pool, we set their initial speeds to be close to 0. Taking v = u + at , the final velocity is thus proportional to acceleration at any given time step. Again, c, k, l are adjustable parameters and p0 is the base position at each time step after applying the sine and cosine function.
+        </p>
+
+        <div align="middle">
+            <table style="width=100%">
+                <tr>
+                    <img src="images/image24.png" align="middle" height="200px"/>
+                    <img src="images/image18.png" align="middle" height="200px"/>
+                    <figcaption align="middle">Same Wax Blob at Different Depths</figcaption>
+                </tr>
+                <tr>
+                    <img src="images/image6.png" align="middle" height="200px"/>
+                    <figcaption align="middle">Temperature Gradient Background</figcaption>
+                </tr>
+            </table>
+        </div>
+
+        <h3 align="">Shading</h3>
+
+        <p>
+            After conducting some research on how to add more realistic shading and color to our lava lamp, we were inspired by a shader which generated an interesting 2D shading effect using imaginary normals and an imaginary light source. In a similar fashion to this shader, we experimented with incorporating imaginary normals and an imaginary light source into our simulation to generate a 2D shaded effect for our lava lamp. We did so by smoothing the normals between the metaballs, creating a fake lighting position and direction, calculating max(dot(light_direction, normals), 0), and taking the square root of this to smooth out the lighting. This resulted in some cool 2D shaded effects which, as seen below, somewhat resemble the Lambertian/diffuse shading we learned in class.
+        </p>
+
+        <div align="middle">
+            <table style="width=100%">
+                <tr>
+                    <img src="images/image17.png" align="middle" height="200px"/>
+                    <figcaption align="middle">2D shaded effect</figcaption>
+                </tr>
+            </table>
+        </div>
+
+        <h2 align="">Problems & Lessons</h2>
+        
+        <p>
+            We encountered several challenges throughout this project. Initially, we wanted to use Navier Stokes equations for our simulation. After extensive research into this method and its visual effects, we felt it would not improve our simulation’s movements. Due to this, we pivoted to implementing separate features that would make our simulation more physically realistic, such as more realistic blobs shape, better movements, coloring, and shading.
+
+            <br/>When experimenting with the wax blobs’ movement, we originally tried Newton's polynomial interpolation and Hermite interpolation using points and derivatives of the functions, the graphs of which were provided in the paper. However, the polynomials we obtained from interpolation did not give us desirable outcomes. This was due to their high degrees and the difficulty to scale them for the frame used in Shadertoy. We then tried using logarithm functions adjusted by constants and found it sufficiently effective to mimic the behaviors of wax blobs in a real lava lamp.
+
+            <br/>Shadertoy was unexpectedly difficult and time-consuming to learn and work with, especially in the beginning. We started our program from scratch and found that there was little documentation and useful resources available online. Due to this, we spent a significant amount of time learning and experimenting with Shadertoy. Also, Shadertoy would occasionally go down for long periods of time (up to an entire day), which hindered our progress.
+
+	        <br/>There were a couple features that we spent a lot of time trying to implement, but couldn’t incorporate into our program due to time constraints. Our current movement patterns are deterministic, so we wanted to add some randomness to make them less predictable. In one attempt, we tried using pseudo-random number generators to modify the uv coordinates, start locations, and movement parameters. These changes led to noisy wax blobs, strange movement patterns, and artifacts during merging/splitting.
+        </p>
+
+        <div align="middle">
+            <table style="width=100%">
+                <tr>
+                    <img src="images/image28.png" align="middle" height="200px"/>
+                    <img src="images/image15.png" align="middle" height="200px"/>
+                    <figcaption align="middle">Noisy Wax Blobs From Different Attempts</figcaption>
+                </tr>
+            </table>
+        </div>
+
+        <p>
+            Another one of our reach goals was to implement collisions between wax blobs and foreign objects within the lava lamp. Our initial attempt was to adjust the positions of the blobs when they collide with an object. However, this led to clipping and teleportation issues that we couldn’t resolve. In a different implementation, after creating some objects and placing them into our simulation, we attempted to bounce them off the objects by changing the direction of their movement. However, the metaball blobs continued to pass through objects.
+        </p>
+
+        <div align="middle">
+            <table style="width=100%">
+                <tr>
+                    <img src="images/image22.png" align="middle" height="200px"/>
+                    <figcaption align="middle">Blobs Clipping Into Box and Cylinder</figcaption>
+                </tr>
+            </table>
+        </div>
+
+        <p>
+            We also created a separate shader where we could test out an implementation where the blobs move around each other, rather than simply passing through one another. In this shader, we had balls keep their y position when colliding while modifying the x position to move around other circles. This was somewhat tricky since it would sometimes cause the balls to jump between the sides of the circle it was going around to match its final position. To solve this, we found that we could calculate the start and end intersection positions and trace the ball along a constant shortest path. However this solution was difficult to incorporate into the lava lamp simulation due to the shapes of the blobs and the number of moving blobs.
+        </p>
+
+        <div align="middle">
+            <table style="width=100%">
+                <tr>
+                    <img src="images/image19.png" align="middle" height="200px"/>
+                    <figcaption align="middle">Simplified circle model avoiding collision</figcaption>
+                </tr>
+            </table>
+        </div>
+
+        <h2 align="">Results</h2>
+
+        <p>
+            You can view and play with our main lava lamp <a href="https://www.shadertoy.com/view/NdfSWl">here</a> and our shaded lava lamp <a href="https://www.shadertoy.com/view/NdSSzw">here</a>. Try switching between different color combinations and speeds! Here is the link to our <a href="https://www.youtube.com/watch?fbclid=IwAR13SC7ZyQKNXAEzd3IiKtLDGyRCYzT4CI1Co5_ZekGtOZmp9revpLmmtVo&v=sVHb3tSKKqs&feature=youtu.be">video</a>.
+
+            <br/><br/> Here are some pretty pictures from our shaders:
+        </p>
     </br>
-        <h2 align="">Preliminary Results</h2>
+        
+    <div align="middle">
+        <table style="width=100%">
+            <tr>
+                <img src="images/image14.png" align="middle" height="400px"/>
+                <figcaption align="middle">Temperature Gradient</figcaption>
+            </tr>
+            <tr>
+                <img src="images/image21.png" align="middle" height="400px"/>
+                <figcaption align="middle">Pink</figcaption>
+            </tr>
+            <tr>
+                <img src="images/image23.png" align="middle" height="400px"/>
+                <figcaption align="middle">Orange Sherbet Dreamscicle</figcaption>
+            </tr>
+            <tr>
+                <img src="images/image10.png" align="middle" height="400px"/>
+                <figcaption align="middle">Solar Eclipse</figcaption>
+            </tr>
+            <tr>
+                <img src="images/image11.png" align="middle" height="400px"/>
+                <figcaption align="middle">Shaded Blue</figcaption>
+            </tr>
+            <tr>
+                <img src="images/image20.png" align="middle" height="400px"/>
+                <figcaption align="middle">Shaded Bubblegum Pink</figcaption>
+            </tr>
+            <tr>
+                <img src="images/image7.png" align="middle" height="400px"/>
+                <figcaption align="middle">Shaded Rainbow</figcaption>
+            </tr>
+        </table>
+    </div>
+
+        <h2 align="">References</h2>
         <dl>
-            <dd>- <a href=" https://www.shadertoy.com/view/NdfSWl">Shadertoy Simulation</a></dd>
-            <dd>- <a href="https://drive.google.com/drive/folders/1SF0IPE_oheLoR0p_ERWSHyJjL6R7pErw?usp=sharing">Milestone Video</a></dd>
-            <dd>- <a href="https://docs.google.com/presentation/d/1GW9km9kBRVPAC8xqysLoOrz4Q8FMJ1E7wNLq_UIHdII/edit?usp=sharing">Milestone Slides</a></dd>
-        </dl>
-    
-    </br>
-        <h2 align="">Reflection on Progress Relative to Original Plan</h2>
-        <p>
-            As listed in the accomplishments above, we have made progress towards our goal of simulating a 2D lava lamp. In our original project proposal, we planned to use Navier Stokes in our simulation. After extensive research on this method and its visual effects, we felt it would not improve our simulation. Instead, we have decided to shift our focus towards implementing separate features that will make our simulation more physically realistic, including more realistic blob shape, movement, coloring, shading, and collisions. We also aim to implement volume changes and a temperature gradient that affects blob velocity and volume. If we have time, we will attempt to implement the intersections and collisions between the wax blobs and foreign objects placed inside the lava lamp tank.
-        </p>
+            <dt>References:</dt>
+            <dd>- <a href="http://www.subdude-site.com/WebPages_Local/RefInfo/Computer/Linux/LinuxGuidesOfOthers/linuxProgrammingGuides/pdfs/3Dogl/3D_3DLavaLampSimulation_report_ca2002_35pgs.pdf">A 3D Lava Lamp Simulation</a></dd>
+            <dd>- <a href="https://www.researchgate.net/publication/220789344_Particle-Based_Fluid-Fluid_Interaction">Particle-Based Fluid-Fluid Interaction</a></dd>
+            <dd>- <a href="https://graphics.stanford.edu/courses/cs348c-95-fall/projects/redkey_herman/writeup.html">A Particle System Representation of Candle Wax.</a></dd>
+            <dd>- <a href="https://github.com/mharrys/fluids-2d?fbclid=IwAR2BkokLk1JW4ri9l-5nY8v8svZfWcqH7iyEfOZ5JpqtBVCplKhAv2ggsow">Fluids-2D</a></dd>
+            <dd>- <a href="https://en.wikipedia.org/wiki/Navier–Stokes_equations">Navier–Stokes equations</a></dd>
+            <dd>- <a href="http://karman3.elte.hu/janosi/pdf_pub/PRE09lava-lamp.pdf">Basics of a Lava Lamp convection</a></dd>
+            <dd>- <a href="https://oceanservice.noaa.gov/facts/thermocline.html">What is a Thermocline?</a></dd>
+            <dd>- <a href="http://wiki.geodynamics.umaine.edu/index.php/Heat_transfer">Heat Transfer in a Lava Lamp</a></dd>
+            <dd>- <a href="https://www.youtube.com/channel/UCcAlTqd9zID6aNX3TzwxJXg/feed">Basic ShaderToy Tutorials</a></dd>
+            <dd>- <a href="https://greentec.github.io/shadertoy-metaball-en/?fbclid=IwAR2O-2iOJFU2bQGV-A8jjGsLZJf00l1l1H4KuzBDAUfISnyRQUMUnuXk7b4">Metaball Analysis</a></dd>
+            <dd>- <a href="https://www.shadertoy.com/view/WlKSWt">2D Shader Reference</a></dd>
 
-    </br>
-        <h2 align="">Updated Work Plan</h2>
-        <p><b>By end of Week 3 (April 27th):</b> </br>Add temperature gradient and volume change due to temperature. Make wax balls look more like blobs. Add new color effects and shading.</p>
-        <p><b>By end of Week 4 (May 4th):</b> </br>Add finishing touches to the project and try implementing collisions between blobs and obstacles within the tank. Create the website and make the videos.</p>
+
+        </br>
+            <dt>Computing platform:</dt>
+            <dd>- Personal Laptops</dd>
+        </br>
+            <dt>Software Resources</dt>
+            <dd>- ShaderToy</dd>
+        </dl>
+
+        <h2 align="">Contributions</h2>
+
+        <p>
+            Everyone contributed to the deliverables for the proposal, milestone, final presentation, and final write up. Everyone also attempted to implement collisions.
+	<br/>Jonathan created the basic lava lamp container, many of the color combinations/effects, the wax pool and blobs, and the “slow mode” option. He also tweaked and fine-tuned the blobs’ shapes, positions, and movement parameters.
+	<br/>Alyssa researched and experimented with metaball construction, implemented changes in blob speed dependent on temperature, and added a 2D shading effect to the wax blobs.
+	<br/>Jessica explored various ways of making the blob movement more realistic, experimented with blob collisions, and fine-tuned the blobs’ movement and position parameters. She also made the collisions shader.
+	<br/>Zoe researched the heat transfer across various depths of a lava lamp, implemented changes in blob size based on the combined effects of temperature and hydrostatic pressure, and adjusted the positions and movements based on buoyancy.
+        </p>
 
     </div></body>
 </html>

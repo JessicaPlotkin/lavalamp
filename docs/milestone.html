@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<style>
+  body {
+    max-width: 1000px;
+    padding: 100px;
+    padding-top: 10px;
+    margin: auto;
+    text-align: left;
+    font-weight: 300;
+    font-family: 'Open Sans', sans-serif;
+    color: #121212;
+  }
+  h1, h2, h3, h3 {
+    font-family: 'Source Sans Pro', sans-serif;
+  }
+  .site-header {
+    overflow: auto;
+    height: 20vh;
+    background-image: url(images/bgimage.jpg);
+    background-size: cover;
+  }
+  .name-header {
+    float: left;
+    height: fit-content;
+  }
+  .name-header p {
+    margin-top: 8%;
+    margin-left: 5%;
+    width: 30vw;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 35px;
+    color: rgb(255, 255, 255);
+    
+    text-shadow: 0 0 4px cornflowerblue;
+  }
+  .title-bar {
+    float: right;
+    padding: 5px;
+  }
+  .title-bar a {
+    display:block;
+    float: left;
+    text-align: center;
+    text-decoration: none;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: normal;
+    color: rgb(219, 219, 219);
+    padding: 16px;
+    padding-top: 50px;
+  }
+</style>
+<title>Lavalamp | CS 184</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link href="https://fonts.googleapis.com/css?family=Open+Sans|Source+Sans+Pro" rel="stylesheet">
+</head>
+
+
+<body>
+    <div class="site-header">
+        <div class="name-header">
+            <p>Lavalamp Simulation</p>
+        </div>
+            <div class="title-bar"> 
+            <a href="proposal.html">Proposal</a>
+            <a href="milestone.html">Milestone</a>
+            <a href="index.html">Final</a>
+        </div>
+    </div>
+
+<!-- <h1 align="middle">CS 184: Computer Graphics and Imaging, Spring 2021</h1> -->
+<h1 align="middle">Milestone</h1>
+<h3 align="middle">Alyssa Lau, Jessica Plotkin, Jonathan Liu, and Zoe Zhang</h3>
+
+<br><br>
+
+    <div>
+
+        <h2 align="">Project Goal</h2>
+        <p>
+            Our main project goal remains the same: to implement a shader in Shadertoy to simulate the movement and interactions between the wax blobs in a lava lamp.
+        </p>
+
+    </br>
+        <h2 align="">Accomplishments</h2>
+        <p>
+            So far we’ve made good progress on our week to week goals. We’ve learned how to use Shadertoy by going through a few tutorials and experimenting with various programs we found online. Using what we learned from the tutorials and other online resources, we made a basic wax simulator that employs a system of metaballs to represent the wax blobs. We also made a simple container for the lava lamp, complete with a wax pool that interacts with the wax blobs. Our program is able to simulate the sinking, floating, and merging of the blobs. In order to mimic the velocity changes of the blobs due to temperature, our program makes the movement speed of the blobs proportional to their distance from the bottom of the lava lamp.
+        </p>
+
+    </br>
+        <h2 align="">Preliminary Results</h2>
+        <dl>
+            <dd>- <a href=" https://www.shadertoy.com/view/NdfSWl">Shadertoy Simulation</a></dd>
+            <dd>- <a href="https://drive.google.com/drive/folders/1SF0IPE_oheLoR0p_ERWSHyJjL6R7pErw?usp=sharing">Milestone Video</a></dd>
+            <dd>- <a href="https://docs.google.com/presentation/d/1GW9km9kBRVPAC8xqysLoOrz4Q8FMJ1E7wNLq_UIHdII/edit?usp=sharing">Milestone Slides</a></dd>
+        </dl>
+    
+    </br>
+        <h2 align="">Reflection on Progress Relative to Original Plan</h2>
+        <p>
+            As listed in the accomplishments above, we have made progress towards our goal of simulating a 2D lava lamp. In our original project proposal, we planned to use Navier Stokes in our simulation. After extensive research on this method and its visual effects, we felt it would not improve our simulation. Instead, we have decided to shift our focus towards implementing separate features that will make our simulation more physically realistic, including more realistic blob shape, movement, coloring, shading, and collisions. We also aim to implement volume changes and a temperature gradient that affects blob velocity and volume. If we have time, we will attempt to implement the intersections and collisions between the wax blobs and foreign objects placed inside the lava lamp tank.
+        </p>
+
+    </br>
+        <h2 align="">Updated Work Plan</h2>
+        <p><b>By end of Week 3 (April 27th):</b> </br>Add temperature gradient and volume change due to temperature. Make wax balls look more like blobs. Add new color effects and shading.</p>
+        <p><b>By end of Week 4 (May 4th):</b> </br>Add finishing touches to the project and try implementing collisions between blobs and obstacles within the tank. Create the website and make the videos.</p>
+
+    </div></body>
+</html>
